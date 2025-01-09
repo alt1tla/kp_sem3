@@ -1,41 +1,44 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import CharacterViewSet, CharacterClassViewSet, PlayerViewSet, ItemViewSet, QuestViewSet
-from . import views
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
+from django.urls import path, include  # Импортируем необходимые модули для работы с маршрутами
+from rest_framework.routers import DefaultRouter  # Импортируем DefaultRouter для автоматического создания маршрутов
+from .views import CharacterViewSet, CharacterClassViewSet, PlayerViewSet, ItemViewSet, QuestViewSet  # Импортируем viewset'ы для API
+from . import views  # Импортируем обычные представления (views) для обработки веб-страниц
+from rest_framework import permissions  # Импортируем разрешения для API
+from drf_yasg.views import get_schema_view  # Импортируем метод для генерации Swagger документации
+from drf_yasg import openapi  # Импортируем открытие API схемы
 
+# Настройка Swagger UI
 schema_view = get_schema_view(
     openapi.Info(
-        title="Game API",
-        default_version='v1',
-        description="API для RPG игры",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@gameapi.local"),
-        license=openapi.License(name="BSD License"),
+        title="Game API",  # Название API
+        default_version='v1',  # Версия API
+        description="API для RPG игры",  # Описание API
+        terms_of_service="https://www.google.com/policies/terms/",  # Условия использования
+        contact=openapi.Contact(email="contact@gameapi.local"),  # Контактная информация
+        license=openapi.License(name="BSD License"),  # Лицензия на API
     ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),  # Swagger доступен для всех
+    public=True,  # Указываем, что схема будет доступна для всех
+    permission_classes=(permissions.AllowAny,),  # Разрешения для Swagger: доступен всем без ограничений
 )
 
+# Создаем роутер для автоматического создания маршрутов для API
 router = DefaultRouter()
-router.register(r'characters', CharacterViewSet)
-router.register(r'character-classes', CharacterClassViewSet)
-router.register(r'players', PlayerViewSet)
-router.register(r'items', ItemViewSet)
-router.register(r'quests', QuestViewSet)
+router.register(r'characters', CharacterViewSet)  # Маршрут для работы с персонажами
+router.register(r'character-classes', CharacterClassViewSet)  # Маршрут для работы с классами персонажей
+router.register(r'players', PlayerViewSet)  # Маршрут для работы с игроками
+router.register(r'items', ItemViewSet)  # Маршрут для работы с предметами
+router.register(r'quests', QuestViewSet)  # Маршрут для работы с квестами
 
+# Определяем URL-пути для проекта
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("item/<int:item_id>/", views.item, name="item"),
-    path("accounts/profile/", views.profile, name="profile"),
-    path("registration/", views.RegistrationView.as_view(), name="registration"),
-    path("delete_user/<int:pk>/", views.DeleteUser.as_view(), name="delete_user"),
-    path("edit_profile/", views.edit_profile, name="edit_profile"),
-    path('create_character/', views.create_character, name='create_character'),
-    path('character/<int:character_id>/', views.character_detail, name='character_detail'),
-    path('quest/take/<int:quest_id>/', views.take_quest, name='take_quest'),
-    path("api/", include(router.urls)),  # Подключаем маршруты роутера
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),name='schema-swagger-ui'),
+    path("", views.index, name="index"),  # Главная страница (обрабатывает запросы на главную страницу)
+    path("item/<int:item_id>/", views.item, name="item"),  # Страница с деталями предмета по его ID
+    path("accounts/profile/", views.profile, name="profile"),  # Страница профиля пользователя
+    path("registration/", views.RegistrationView.as_view(), name="registration"),  # Страница регистрации
+    path("delete_user/<int:pk>/", views.DeleteUser.as_view(), name="delete_user"),  # Страница для удаления пользователя
+    path("edit_profile/", views.edit_profile, name="edit_profile"),  # Страница для редактирования профиля пользователя
+    path('create_character/', views.create_character, name='create_character'),  # Страница для создания персонажа
+    path('character/<int:character_id>/', views.character_detail, name='character_detail'),  # Страница с детальной информацией о персонаже
+    path('quest/take/<int:quest_id>/', views.take_quest, name='take_quest'),  # Страница для принятия квеста
+    path("api/", include(router.urls)),  # Подключаем маршруты для API через роутер
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),  # Страница для отображения Swagger UI
 ]
