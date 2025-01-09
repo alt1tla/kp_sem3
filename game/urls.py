@@ -13,7 +13,7 @@ schema_view = get_schema_view(
         default_version='v1',  # Версия API
         description="API для RPG игры",  # Описание API
         terms_of_service="https://www.google.com/policies/terms/",  # Условия использования
-        contact=openapi.Contact(email="contact@gameapi.local"),  # Контактная информация
+        contact=openapi.Contact(email="veronika@gerdzhikova.ru"),  # Контактная информация
         license=openapi.License(name="BSD License"),  # Лицензия на API
     ),
     public=True,  # Указываем, что схема будет доступна для всех
@@ -38,7 +38,9 @@ urlpatterns = [
     path("edit_profile/", views.edit_profile, name="edit_profile"),  # Страница для редактирования профиля пользователя
     path('create_character/', views.create_character, name='create_character'),  # Страница для создания персонажа
     path('character/<int:character_id>/', views.character_detail, name='character_detail'),  # Страница с детальной информацией о персонаже
-    path('quest/take/<int:quest_id>/', views.take_quest, name='take_quest'),  # Страница для принятия квеста
+    path('take_quest/<int:quest_id>/<int:character_id>/', views.take_quest, name='take_quest'),  # Страница для принятия квеста персонажем
     path("api/", include(router.urls)),  # Подключаем маршруты для API через роутер
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),  # Страница для отображения Swagger UI
+    path('complex_query_1/', views.complex_query_1, name='complex_query_1'),  # Страница для выполнения сложного запроса 1
+    path('complex_query_2/', views.complex_query_2, name='complex_query_2'),  # Страница для выполнения сложного запроса 2
 ]

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quests for Character</title>
+</head>
+<body>
+    <h1>Available Quests</h1>
+    {% if quests %}
+        <ul>
+            {% for quest in quests %}
+                <li>
+                    <strong>{{ quest.name }}</strong> - {{ quest.difficulty }} <br>
+                    Description: {{ quest.description }} <br>
+                    Rewards: {{ quest.reward }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No quests available for this character.</p>
+    {% endif %}
+</body>
+</html>

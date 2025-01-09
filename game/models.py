@@ -19,19 +19,22 @@ class Player(AbstractUser):
     def __str__(self):
         return self.username  # Строковое представление пользователя (по имени пользователя)
 
-# Модель для представления классов персонажей
 class CharacterClass(models.Model):
-    name = models.CharField(max_length=50, unique=True)  # Название класса (например, "Воин")
+    name = models.CharField(max_length=50, unique=True)  # Название класса (например, "Warrior")
     description = models.TextField(blank=True, null=True)  # Описание класса, может быть пустым
     base_health = models.IntegerField(default=100)  # Базовый уровень здоровья для класса
     base_mana = models.IntegerField(default=50)  # Базовый уровень маны для класса
 
+    def __str__(self):
+        return self.name  # Возвращаем имя класса для строкового представления
+
+
 # Модель для представления персонажей
 class Character(models.Model):
     character_id = models.AutoField(primary_key=True)  # Уникальный идентификатор персонажа
-    user = models.ForeignKey(Player, on_delete=models.CASCADE)  # Связь с игроком (пользователем)
+    user = models.ForeignKey(Player, on_delete=models.CASCADE)  # Обязательная связь с пользователем
     name = models.CharField(max_length=50)  # Имя персонажа
-    level = models.IntegerField()  # Уровень персонажа
+    level = models.IntegerField(default=1)  # Уровень персонажа, начальное значение — 1
     experience = models.IntegerField()  # Опыт персонажа
     character_class = models.ForeignKey(CharacterClass, on_delete=models.SET_NULL, null=True)  # Класс персонажа
     created_at = models.DateTimeField(auto_now_add=True)  # Дата и время создания персонажа
@@ -40,14 +43,19 @@ class Character(models.Model):
         return f"{self.name} ({self.character_class.name})"  # Строковое представление персонажа (имя и класс)
 
     def clean(self):
-        super().clean()  # Вызываем родительский метод clean() для сохранения всех стандартных проверок
+        super().clean()  # Вызываем родительский метод clean()
+        
+        # Проверяем, что поле user уже установлено
+        if not self.user_id:  # Используем `user_id`, чтобы избежать обращения к объекту
+            return  # Если пользователь ещё не установлен, не проводим дальнейших проверок
+
         # Проверка, что уровень персонажа находится в пределах от 1 до 100
         if not (1 <= self.level <= 100):
-            raise ValidationError("Уровень персонажа должен быть в диапазоне от 1 до 100.")
+            raise ValidationError("Level must be in range from 1 to 100.")
 
         # Проверка, что имя персонажа уникально для данного пользователя
         if Character.objects.filter(user=self.user, name=self.name).exists():
-            raise ValidationError("Персонаж с таким именем уже существует у этого игрока.")
+            raise ValidationError("Character with same name already exist.")
 
     def save(self, *args, **kwargs):
         self.full_clean()  # Запускаем полную валидацию перед сохранением объекта
@@ -81,7 +89,7 @@ class CharacterItem(models.Model):
         super().clean()  # Вызываем родительский метод clean()
         # Проверка, что количество предметов больше нуля
         if self.quantity <= 0:
-            raise ValidationError("Количество предметов должно быть больше нуля.")
+            raise ValidationError("Quantity of item must be more than 0.")
 
 # Модель для представления квестов
 class Quest(models.Model):

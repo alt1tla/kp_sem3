@@ -67,9 +67,9 @@ Character Detail
                 <span class="{% if quest.difficulty == 'impossible' %}impossible{% elif quest.difficulty == 'hard' %}hard{% elif quest.difficulty == 'medium' %}medium{% elif quest.difficulty == 'easy' %}easy{% endif %}">
                     <strong>{{ quest.name }}</strong>
                 </span> - {{ quest.description }}
-                <form action="{% url 'take_quest' quest.quest_id %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn" type="submit">Take Quest</button>
+                <form action="{% url 'take_quest' quest.quest_id character.character_id %}" method="post">
+                  {% csrf_token %}
+                  <button class="btn" type="submit">Take Quest</button>
                 </form>
             </li>
         {% empty %}

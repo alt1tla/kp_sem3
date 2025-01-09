@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Characters with Items</title>
+</head>
+<body>
+    <h1>Characters with Specific Items</h1>
+    {% if characters %}
+        <ul>
+            {% for character in characters %}
+                <li>
+                    <strong>{{ character.name }}</strong> <br>
+                    Level: {{ character.level }} <br>
+                    Items: 
+                    <ul>
+                        {% for item in character.characteritem_set.all %}
+                            {% if item.item.type in "weapon, armor" and item.item.rarity != "legendary" %}
+                                <li>{{ item.item.name }} ({{ item.item.type }}, {{ item.item.rarity }})</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No characters found with the specified criteria.</p>
+    {% endif %}
+</body>
+</html>

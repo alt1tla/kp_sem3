@@ -1,6 +1,7 @@
 from game.models import Player, Character
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms 
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Форма для регистрации нового пользователя
 class RegistrationForm(UserCreationForm):
@@ -19,8 +20,17 @@ class EditProfileForm(UserChangeForm):
 # Форма для создания нового персонажа
 class CharacterForm(forms.ModelForm):
     class Meta:
-        model = Character  # Используем модель Character
-        fields = ['name', 'character_class']  # Поля, которые будут отображены в форме создания персонажа
+        model = Character
+        fields = ['name', 'character_class', 'level']
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Введите имя персонажа'}),  # Виджет для поля имени
+            'name': forms.TextInput(attrs={'placeholder': 'Enter character name'}),
         }
+    
+    level = forms.IntegerField(
+        required=False,  # Сделайте поле необязательным
+        validators=[
+            MinValueValidator(1, "Level must be at least 1."),
+            MaxValueValidator(100, "Level cannot exceed 100.")
+        ],
+        initial=1  # Устанавливаем начальное значение
+    )
