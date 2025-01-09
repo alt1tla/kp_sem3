@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
 from django.views.generic.edit import FormView, DeleteView
 from django.db.models import Q
+from rest_framework.pagination import PageNumberPagination
 
 # Главная страница с перечнем квестов и предметов
 def index(request):
@@ -123,17 +124,28 @@ def complex_query_2(request):
     
     return render(request, "complex_query_2.html", {"characters": characters})  # Рендерим результат
 
+# Отрисовка пагинации на API 
+def pagination(request):
+    return render(request, 'pagination.html') # Рендер результата
+
 # Класс для удаления пользователя
 class DeleteUser(DeleteView):
     model = Player  # Указываем модель пользователя
     template_name = 'delete_user_confirm.html'  # Шаблон для подтверждения удаления
     success_url = reverse_lazy("index")  # Перенаправление на главную страницу после удаления
 
+# Класс пагинации вывода персонажей 
+class CharacterPagination(PageNumberPagination):
+    page_size = 1  # Установите количество элементов на странице
+    page_size_query_param = 'page_size'  # Позволяет пользователю переопределять размер страницы через параметр
+    max_page_size = 20  # Максимальный размер страницы
+
 # ViewSet для работы с персонажами через API
 class CharacterViewSet(viewsets.ModelViewSet):
     queryset = Character.objects.all()  # Получаем все персонажи
     serializer_class = CharacterSerializer  # Указываем сериализатор для персонажей
     permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
+    pagination_class = CharacterPagination # Пагинация
 
 # ViewSet для работы с игроками через API
 class PlayerViewSet(viewsets.ModelViewSet):

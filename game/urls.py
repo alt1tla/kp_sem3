@@ -40,6 +40,7 @@ urlpatterns = [
     path('character/<int:character_id>/', views.character_detail, name='character_detail'),  # Страница с детальной информацией о персонаже
     path('take_quest/<int:quest_id>/<int:character_id>/', views.take_quest, name='take_quest'),  # Страница для принятия квеста персонажем
     path("api/", include(router.urls)),  # Подключаем маршруты для API через роутер
+    path('pagination/', views.pagination, name='pagination'),  # Новый маршрут для HTML-шаблона
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),  # Страница для отображения Swagger UI
     path('complex_query_1/', views.complex_query_1, name='complex_query_1'),  # Страница для выполнения сложного запроса 1
     path('complex_query_2/', views.complex_query_2, name='complex_query_2'),  # Страница для выполнения сложного запроса 2
