@@ -1,0 +1,217 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block link %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+<link href="{% static 'css/items.css' %}" rel="stylesheet">
+{% endblock link %}
+
+{% block title %}
+Eternal Odyssey
+{% endblock title %}
+
+{% block content %}
+<section class="welcome" id="welcome">
+    <img src="{% static 'image/eternal-odyssey-welcome.jpg' %}" alt="Eternal Odyssey" class="img-fluid">
+    <div class="welcome-text  wrapper">
+        <h1 class="text-center">Embark on an Eternal Odyssey</h1>
+        <p>Join the epic journey of a lifetime as you explore a vast open world, battle fearsome enemies, and uncover
+            the secrets of a forgotten land.</p>
+    </div>
+</section>
+
+<section class="game-overview wrapper" id="game-overview">
+    <h2 class="text-center">About Eternal Odyssey</h2>
+    <p>In this action-packed RPG, you'll play as a brave warrior, cunning rogue, or powerful mage, each with their own
+        unique abilities and playstyles.
+    </p>
+    <ul>
+        <li>Discover an open world with diverse landscapes and climates</li>
+        <li>Engage in intense combat with numerous foes and dangerous bosses</li>
+        <li>Uncover the secrets of a forgotten land and shape its destiny</li>
+        <li>Develop your character with a deep customization system</li>
+        <li>Master a complex combat system with multiple attack types, defensive maneuvers, and magical abilities</li>
+    </ul>
+    <p>Eternal Odyssey is a game that will take you on an unforgettable journey, with a rich storyline, engaging
+        characters, and a world full of mysteries.
+    </p>
+</section>
+
+<section class="features wrapper" id="features">
+    <h2 class="text-center">Key Features</h2>
+    <div id="carouselExampleCaptions" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'image/feature-1.jpg' %}" class="d-block w-100 img-fluid" alt="Eternal Odyssey">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Deep Character Customization</h3>
+                    <p>Create your own unique character with a wide range of appearance and ability options.</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="{% static 'image/feature-2.jpg' %}" class="d-block w-100 img-fluid" alt="Eternal Odyssey">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Dynamic Combat System</h3>
+                    <p>Master a complex combat system with multiple attack types, defensive maneuvers, and magical
+                        abilities.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'image/feature-3.jpg' %}" class="d-block w-100 img-fluid" alt="Eternal Odyssey">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Immersive Storyline</h3>
+                    <p>Experience a rich and immersive storyline with multiple endings and branching paths.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'image/feature-4.jpg' %}" class="d-block w-100 img-fluid" alt="Eternal Odyssey">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Vast Open World</h3>
+                    <p>Explore a vast open world, full of secrets and adventures.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <p>Immerse yourself in Eternal Odyssey's captivating narrative,
+        memorable characters, and expansive open world, and get ready to embark on a
+        gaming adventure that will keep you enthralled for hours on end.
+    </p>
+</section>
+
+<section class="welcome-alfa" id="welcome-alfa">
+    <h2 class="text-center wrapper">Here we go with Alfa of single-player RPG Eternal Odyssey</h2>
+    <img src="{% static 'image/eternal-odyssey-alfa.jpg' %}" alt="Eternal Odyssey" class="img-fluid">
+    <div class="items-text  wrapper">
+        <p>Welcome to the alpha version of Eternal Odyssey, a vast and immersive open-world RPG that will take you on an
+            unforgettable journey. Explore a richly detailed world, battle fearsome enemies, and uncover the secrets of
+            a forgotten land. With a deep storyline, engaging characters, and extensive character customization, Eternal
+            Odyssey promises to be an epic adventure like no other. In this alpha version, we invite you to be among the
+            first to experience the early stages of our game and provide your valuable feedback to help shape its
+            future. Below are the first developments on the content in the game.</p>
+    </div>
+</section>
+
+<section class="quests">
+    <h2 class="text-center">Quests Preview</h2>
+
+    {% for quest in quests %}
+    <div class="card wrapper">
+        <div class="card-header">
+            <h3>{{quest.name}} <span class="opacity-75">({{quest.difficulty}})</span></h3>
+        </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                <p class="fz">{{quest.description}}</p>
+                <footer class="blockquote-footer fz">{{quest.reward}}
+                </footer>
+            </blockquote>
+        </div>
+    </div>
+    {% endfor %}
+
+</section>
+
+<section class="items">
+    <h2 class="text-center">Items Preview</h2>
+    <div class="cards wrapper">
+
+        {% for item in items %}
+
+        <div class="card card-item" style="width: 18rem;">
+            <div class="card-body">
+                <h3 class="card-title">{{item.name}}</h5>
+                    <h4 class="card-subtitle mb-2 opacity-75">{{item.type}}</h6>
+                        <p class="card-text ">{{item.description}}</p>
+                        <a href="{% url 'item' item.pk %}" class="card-link">Read more</a>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <dialog id="dialog">
+
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <p class="card-title" id="card-title"></p>
+                <p class="card-text" id="card-text"></p>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" id="card-type"></li>
+                <li class="list-group-item" id="card-rarity"></li>
+                <li class="list-group-item" id="card-value"></li>
+            </ul>
+        </div>
+
+    </dialog>
+
+</section>
+
+<section class="screenshots wrapper" id="screenshots">
+    <h2 class="text-center">Screenshots</h2>
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'image/screenshotsRPG-1.jpg' %}" class="d-block w-100 img-fluid"
+                    alt="Eternal Odyssey screenshot">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'image/screenshotsRPG-2.jpg' %}" class="d-block w-100 img-fluid"
+                    alt="Eternal Odyssey screenshot">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'image/screenshotsRPG-3.jpg' %}" class="d-block w-100 img-fluid"
+                    alt="Eternal Odyssey screenshot">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <p>The screenshots presented are not a demonstration of the final product, the graphics and virtual environment will be finalized until the moment of implementation</p>
+</section>
+
+<section class="call-to-action" id="call-to-action">
+    <h2 class="text-center wrapper">Will you accept the challenge of the Eternal Odyssey?</h2>
+    <img src="{% static 'image/eternal-odyssey-bye.jpg' %}" alt="Eternal Odyssey" class="img-fluid">
+    <div class="wrapper">
+        <p>Begin a legendary quest of discovery and bravery, venture into a boundless open world, confront formidable
+            foes,
+            and unravel the mysteries of a long-lost realm, where ancient secrets and hidden wonders await.
+            Join the adventure and experience the ultimate RPG experience.
+        </p>
+        <a href="{% url 'profile' %}" class="join-btn">Explore Alfa right now!</a>
+    </div>
+</section>
+
+{% endblock content %}

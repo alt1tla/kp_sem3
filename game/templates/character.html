@@ -1,0 +1,103 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block link %}
+<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+{% endblock link %}
+
+{% block title %}
+Character Detail
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+  <section class="profile-card">
+    <h1 class="profile-username">{{ character.name }}</h1>
+    <p class="profile-info">Level: {{ character.level }}</p>
+    <p class="profile-info">Experience: {{ character.experience }}</p>
+    <p class="profile-info">Created at: {{ character.created_at|date:"d M Y" }}</p>
+
+    <h2 class="profile-info">Inventory</h2>
+    <ul>
+      {% for character_item in inventory %}
+        <li class="profile-info">
+          ({{ character_item.quantity }})
+          <span class="{% if character_item.item.rarity == 'Legendary' %}legendary{% elif character_item.item.rarity == 'Epic' %}epic{% elif character_item.item.rarity == 'Rare' %}rare{% elif character_item.item.rarity == 'Uncommon' %}uncommon{% elif character_item.item.rarity == 'Common' %}common{% endif %}">
+            {{ character_item.item.name }} 
+          </span>
+          {% if character_item.equipped %}
+            - Equipped
+          {% endif %}
+        </li>
+      {% empty %}
+        <li>No items in inventory.</li>
+      {% endfor %}
+    </ul>
+
+    <h2 class="profile-info">Quests</h2>
+    <ul>
+      {% for character_quest in quests %}
+        <li class="profile-info">
+          <span class="{% if character_quest.quest.difficulty == 'impossible' %}impossible{% elif character_quest.quest.difficulty == 'hard' %}hard{% elif character_quest.quest.difficulty == 'medium' %}medium{% elif character_quest.quest.difficulty == 'easy' %}easy{% endif %}">
+            {{ character_quest.quest.name }}
+          </span>
+          {% if character_quest.completed_at %}
+            (Completed at: {{ character_quest.completed_at|date:"d M Y" }})
+          {% else %}
+            (Started at: {{ character_quest.started_at|date:"d M Y" }})
+          {% endif %}
+          - 
+          {% if character_quest.status == "completed" %}
+            ✅
+          {% elif character_quest.status == "pending" %}
+            ⏳
+          {% elif character_quest.status == "cancelled" %}
+            ❌
+          {% endif %}
+        </li>
+      {% empty %}
+        <li>No quests assigned.</li>
+      {% endfor %}
+    </ul>
+
+    <h2>Available Quests</h2>
+    <ul class="available-quests">
+        {% for quest in available_quests %}
+            <li>
+                <span class="{% if quest.difficulty == 'impossible' %}impossible{% elif quest.difficulty == 'hard' %}hard{% elif quest.difficulty == 'medium' %}medium{% elif quest.difficulty == 'easy' %}easy{% endif %}">
+                    <strong>{{ quest.name }}</strong>
+                </span> - {{ quest.description }}
+                <form action="{% url 'take_quest' quest.quest_id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn" type="submit">Take Quest</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No available quests.</li>
+        {% endfor %}
+    </ul>
+
+    <a class="btn-login" href="{% url 'profile' %}">Back to Profile</a>
+  </section>
+
+  <!-- Legend Section -->
+  <aside class="legend">
+    <h2 class="profile-info">Legend:</h2>
+    <h3 class="profile-username">Rarity:</h3>
+    <ul>
+      <li class="profile-info"><span class="common">Common</span> - Gray</li>
+      <li class="profile-info"><span class="uncommon">Uncommon</span> - Green</li>
+      <li class="profile-info"><span class="rare">Rare</span> - Blue</li>
+      <li class="profile-info"><span class="epic">Epic</span> - Purple</li>
+      <li class="profile-info"><span class="legendary">Legendary</span> - Gold</li>
+    </ul>
+    <h3 class="profile-username">Difficulty:</h3>
+    <ul>
+      <li class="profile-info"><span class="easy">Easy</span> - Green</li>
+      <li class="profile-info"><span class="medium">Medium</span> - Blue</li>
+      <li class="profile-info"><span class="hard">Hard</span> - Dark Orange</li>
+      <li class="profile-info"><span class="impossible">Impossible</span> - Red</li>
+    </ul>
+  </aside>
+</div>
+{% endblock content %}

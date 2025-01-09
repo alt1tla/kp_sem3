@@ -1,0 +1,54 @@
+:root {
+    --color--1--: #FDFFE2;
+    --color--2--: #5A72A0;
+    --color--3--: #1A2130;
+    --color--4--: #83B4FF;
+    font-size: 62.5%;
+}
+
+.carousel-caption {
+    color: var(--color--1--) !important;
+    text-shadow: black 1px -1px 1px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.game-overview li::before {
+    content: "🔥";
+    padding-right: 0.5rem;
+}
+
+.welcome img {
+    margin-bottom: 20px;
+}
+
+.join-btn {
+    background-color: var(--color--2--) !important;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--color--1--) !important;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'RedditMono-Bold' !important;
+    margin-top: 20px;
+    display: block;
+    max-width: max-content;
+}
+
+.join-btn:hover {
+    background-color: var(--color--4--) !important;
+    color: var(--color--3--) !important;
+}
+
+@media (max-width:768px) {
+
+    main {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+}

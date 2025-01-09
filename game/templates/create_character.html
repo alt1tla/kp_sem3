@@ -1,0 +1,24 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block link %}
+<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+{% endblock link %}
+
+{% block title %}
+Create Character
+{% endblock title %}
+
+{% block content %}
+<section class="profile-card">
+  <h1 class="profile-info">Create a New Character</h1>
+  
+  <form class="profile-info" method="POST">
+      {% csrf_token %}
+        {{ form.as_p }} 
+      <button type="submit" class="btn-login">Create Character</button>
+  </form>
+  
+  <a class="btn-login" href="{% url 'profile' %}">Back to Profile</a>
+</section>
+{% endblock content %}

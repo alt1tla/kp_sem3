@@ -1,0 +1,169 @@
+:root {
+    --color--1--: #FDFFE2;
+    --color--2--: #5A72A0;
+    --color--3--: #1A2130;
+    --color--4--: #83B4FF;
+    --color--5--: #FF6969;
+    --color--6--: #C80036;
+    font-size: 62.5%;
+}
+
+.profile-card {
+    background-color: var(--color--3--);
+    padding: 20px;
+    border: 1px solid var(--color--3--);
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--color--3--);
+    min-width: 400px;
+    max-width: max-content;
+    margin: 0px auto;
+    color: var(--color--1--);
+}
+
+
+.profile-username {
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+
+
+.profile-email {
+    font-size: 2.2rem;
+    color: var(--color--2--);
+}
+
+.btn-login {
+    background-color: var(--color--2--) !important;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--color--1--) !important;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'RedditMono-Bold' !important;
+    margin-top: 20px;
+    display: block;
+    max-width: max-content;
+}
+
+.btn {
+    background-color: var(--color--2--) !important;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--color--1--) !important;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'RedditMono-Bold' !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+    max-width: max-content;
+}
+
+.btn-login:hover {
+    background-color: var(--color--4--) !important;
+    color: var(--color--3--) !important;
+}
+
+.btn-delete {
+    background-color: var(--color--5--) !important;
+}
+
+.btn-delete:hover {
+    background-color: var(--color--6--) !important;
+}
+
+.mb-20{
+  margin-bottom: 20px;
+}
+
+.legendary {
+  color: gold; /* Золотой для Legendary */
+}
+
+.epic {
+  color: purple; /* Фиолетовый для Epic */
+}
+
+.rare {
+  color: blue; /* Синий для Rare */
+}
+
+.uncommon {
+  color: green; /* Зеленый для Uncommon */
+}
+
+.common {
+  color: gray; /* Серый для Common */
+}
+
+.impossible {
+  color: red; /* Red for Impossible */
+}
+
+.hard {
+  color: darkorange; /* Dark Orange for Hard */
+}
+
+.medium {
+  color: blue; /* Blue for Medium */
+}
+
+.easy {
+  color: green; /* Green for Easy */
+}
+
+.container {
+  display: flex; /* Используем flexbox для размещения карточки и легенды рядом */
+  justify-content: space-between; /* Размещаем элементы по краям */
+  margin-top: 20px;
+}
+
+.profile-card {
+  background-color: var(-- color--3--);
+  padding: 20px;
+  border: 1px solid var(--color--3--);
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--color--3--);
+  min-width: 400px;
+  max-width: 700px;
+  color: var(--color--1--);
+}
+
+.legend {
+  background-color: var(--color--3--); /* Цвет фона для легенды */
+  border: 1px solid var(--color--2--); /* Рамка вокруг легенды */
+  border-radius: 10px; /* Закругленные углы */
+  padding: 15px; /* Внутренние отступы */
+  width: 30%; /* Ширина легенды */
+  margin-left: 20px; /* Отступ слева для отделения от карточки */
+  color: var(--color--1--); /* Цвет текста */
+}
+
+.legend h2 {
+  margin:0; 
+}
+.legend h3 {
+  margin-left: 10px; 
+}
+
+.legend ul {
+  list-style-type: none; /* Убираем маркеры списка */
+  padding: 0; /* Убираем внутренние отступы */
+  margin-left: 30px; 
+}
+
+.legend li {
+  margin-bottom: 10px; /* Отступ между элементами списка */
+}
+
+.available-quests {
+  max-height: 150px; /* Установите максимальную высоту, соответствующую 5 строкам */
+  overflow-y: auto; /* Добавляет прокрутку, если содержимое превышает максимальную высоту */
+  border: 1px solid var(--color--2--); /* Добавьте рамку, если нужно */
+  padding: 10px; /* Внутренние отступы */
+  background-color: var(--color--3--); /* Цвет фона */
+}

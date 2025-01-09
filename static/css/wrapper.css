@@ -1,0 +1,208 @@
+@font-face {
+    font-display: swap;
+    font-family: 'RedditMono';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/static/font/RedditMono-VariableFont_wght.ttf') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'RedditMono-Bold';
+    font-style: normal;
+    font-weight: 600;
+    src: url('/static/font/RedditMono-VariableFont_wght.ttf') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'RedditMono-Light';
+    font-style: normal;
+    font-weight: 300;
+    src: url('/static/font/RedditMono-VariableFont_wght.ttf') format('woff2');
+}
+
+:root {
+    --color--1--: #FDFFE2;
+    --color--2--: #5A72A0;
+    --color--3--: #1A2130;
+    --color--4--: #83B4FF;
+    font-size: 62.5%;
+    --header--height--: 80px;
+}
+
+html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scroll-padding-top: var(--header--height--);
+}
+
+body {
+    color: var(--color--3--) !important;
+    font-size: 2.2rem !important;
+    font-family: 'RedditMono' !important;
+    background-color: var(--color--1--) !important;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5;
+}
+
+
+html,
+body {
+    height: 100%;
+}
+
+h1 {
+    font-size: 3.4rem !important;
+}
+
+h2 {
+    font-size: 3rem !important;
+    margin-bottom: 10px !important;
+}
+
+h3 {
+    font-size: 2.6rem !important;
+}
+
+h4 {
+    font-size: 2.2rem !important;
+}
+
+a {
+    text-decoration: none !important;
+    color: var(--color--2--) !important;
+}
+
+a:hover {
+    color: var(--color--4--) !important;
+}
+
+header {
+    max-height: 80px;
+    padding-top: 13px;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    width: 100%;
+    padding-bottom: 13px;
+    background-color: var(--color--3--) !important;
+    font-family: 'RedditMono-Bold' !important;
+}
+
+main {
+    padding-top: var(--header--height--) !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+}
+
+footer {
+    font-family: 'RedditMono-Light' !important;
+    background-color: var(--color--3--) !important;
+    padding-top: 1.25rem;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 1.25rem;
+    margin-top: 20rem;
+    color: var(--color--1--);
+}
+
+
+body>footer {
+    position: sticky;
+    top: 100vh;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'RedditMono-Bold' !important;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    align-self: center;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    color: var(--color--1--) !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: var(--color--4--) !important;
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 134rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.logo {
+    font-size: 3.6rem;
+}
+
+.login-btn {
+    background-color: var(--color--2--) !important;
+    color: var(--color--1--) !important;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    color: var(--color--1--) !important;
+}
+
+.row{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+section:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+*::selection {
+    color: var(--color--2--) !important;
+}
+
+@media (max-width:1000px) {
+
+    .logo {
+        font-size: 2.2rem;
+    }
+
+
+    nav{
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width:768px) {
+
+    nav ul{display: none;}
+
+}

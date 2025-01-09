@@ -1,0 +1,42 @@
+:root {
+    --color--1--: #FDFFE2;
+    --color--2--: #5A72A0;
+    --color--3--: #1A2130;
+    --color--4--: #83B4FF;
+    font-size: 62.5%;
+}
+
+
+.card {
+    background-color: var(--color--3--) !important;
+    color: var(--color--1--) !important;
+    margin-bottom: 10px;
+}
+
+.blockquote-footer {
+    color: var(--color--4--) !important;
+}
+
+.cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.card-item {
+    min-width: 500px !important;
+}
+
+
+.card-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fz {
+    font-size: 2.2rem !important;
+}
+
