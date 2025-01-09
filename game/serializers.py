@@ -31,4 +31,28 @@ class CharacterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Character  # Указываем модель, для которой создается сериализатор
-        fields = ['character_id', 'user', 'name', 'level', 'experience', 'character_class', 'created_at']  # Перечисляем поля, которые будут включены в сериализованный вывод
+        fields = ['character_id', 'user', 'name', 'level', 'experience', 'character_class', 'created_at']  # Перечисляем поля для сериализованного вывода
+
+    def validate(self, data):
+        # Проверка уникальности имени персонажа для данного пользователя
+        user = data['user']  # Получаем пользователя из данных
+        name = data['name']  # Получаем имя персонажа из данных
+        # Проверяем, существует ли уже персонаж с таким именем у этого пользователя
+        if Character.objects.filter(user=user, name=name).exists():
+            raise serializers.ValidationError("Персонаж с таким именем уже существует у этого игрока.")
+        
+        # Проверка уровня персонажа (он должен быть в пределах от 1 до 100)
+        level = data.get('level', 1)  # Если уровень не передан, используем 1 по умолчанию
+        if not (1 <= level <= 100):
+            raise serializers.ValidationError("Уровень персонажа должен быть в диапазоне от 1 до 100.")
+        
+        # Возвращаем обработанные данные
+        return data
+
+# Сериализатор для создания нового персонажа
+class CharacterCreateSerializer(serializers.ModelSerializer):
+    character_class = serializers.PrimaryKeyRelatedField(queryset=CharacterClass.objects.all())  # Ссылка на класс персонажа
+
+    class Meta:
+        model = Character  # Указываем модель для сериализатора
+        fields = ['name', 'level', 'experience', 'character_class', 'user']  # Поля для сериализации при создании персонажа
