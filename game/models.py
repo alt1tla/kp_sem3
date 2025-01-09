@@ -20,17 +20,27 @@ class Player(AbstractUser):
     def __str__(self):
         return self.username
 
+class CharacterClass(models.Model):
+    name = models.CharField(max_length=50, unique=True)  # Название класса, например, "Воин"
+    description = models.TextField(blank=True, null=True)  # Описание класса (необязательно)
+    base_health = models.IntegerField(default=100)  # Пример базового здоровья
+    base_mana = models.IntegerField(default=50)  # Пример базовой маны
+
 class Character(models.Model):
     character_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(Player, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     level = models.IntegerField()
     experience = models.IntegerField()
+    character_class = models.ForeignKey(CharacterClass, on_delete=models.SET_NULL, null=True)  # Связь с CharacterClass
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        return f"{self.name} ({self.character_class.name})" 
+
+    def __str__(self):
         return self.name
-    
+
 
 class Item(models.Model):
     item_id = models.AutoField(primary_key=True)

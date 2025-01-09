@@ -47,6 +47,12 @@
     max-width: max-content;
 }
 
+.form-grid{
+  display: grid;
+  grid-template-columns: 30% 60%;
+  grid-template-rows:auto ;
+}
+
 .btn {
     background-color: var(--color--2--) !important;
     padding: 10px 20px;

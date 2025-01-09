@@ -16,7 +16,7 @@ class EditProfileForm(UserChangeForm):
 class CharacterForm(forms.ModelForm):
     class Meta:
         model = Character
-        fields = ['name']
+        fields = ['name', 'character_class']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Enter character name'}),
         }

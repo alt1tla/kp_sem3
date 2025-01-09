@@ -1,8 +1,11 @@
 from django.shortcuts import get_object_or_404, render, redirect 
 from django.http import HttpResponse 
+from rest_framework import viewsets
 from django.http import Http404
 from django.urls import reverse_lazy 
-from game.models import Item, Quest, Player, Character, CharacterItem, CharacterQuest
+from game.models import Item, Quest, Player, Character, CharacterItem, CharacterQuest, CharacterClass
+from game.permissions import IsSuperUserOrReadOnly
+from .serializers import CharacterSerializer, CharacterClassSerializer, ItemSerializer, PlayerSerializer, QuestSerializer
 from .forms import * 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
@@ -96,3 +99,30 @@ def edit_profile(request):
     else:
         form = EditProfileForm(instance= request.user)
     return render(request, "edit_profile.html", {'form':form})
+
+class CharacterViewSet(viewsets.ModelViewSet):
+    queryset = Character.objects.all()
+    serializer_class = CharacterSerializer
+    permission_classes = [IsSuperUserOrReadOnly]
+
+    
+class PlayerViewSet(viewsets.ModelViewSet):
+    queryset = Player.objects.all()
+    serializer_class = PlayerSerializer
+    permission_classes = [IsSuperUserOrReadOnly]
+
+
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+    permission_classes = [IsSuperUserOrReadOnly]
+
+class QuestViewSet(viewsets.ModelViewSet):
+    queryset = Quest.objects.all()
+    serializer_class = QuestSerializer
+    permission_classes = [IsSuperUserOrReadOnly]
+
+class CharacterClassViewSet(viewsets.ModelViewSet):
+    queryset = CharacterClass.objects.all()
+    serializer_class = CharacterClassSerializer
+    permission_classes = [IsSuperUserOrReadOnly]
