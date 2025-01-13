@@ -138,10 +138,6 @@ def quest_book(request):
         date_to = datetime.strptime(date_to_filter, "%Y-%m-%d")
         quest_list = quest_list.filter(created_at__lte=date_to)
 
-    # Фильтрация для текущего аутентифицированного пользователя
-    if request.user.is_authenticated:
-        quest_list = quest_list.filter(character_quests__character__user=request.user)
-
     # Пагинация
     paginator = Paginator(quest_list, 3)  # Показывать по 3 квестов на странице
     page_number = request.GET.get('page')
