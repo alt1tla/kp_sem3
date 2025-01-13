@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from django.shortcuts import get_object_or_404, render, redirect 
 from django.http import HttpResponse 
 from rest_framework import viewsets
@@ -14,6 +15,10 @@ from django.views.generic.edit import FormView, DeleteView
 from django.db.models import Q
 from rest_framework.pagination import PageNumberPagination
 from django.core.paginator import Paginator
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.exceptions import PermissionDenied
 
 # Главная страница с перечнем квестов и предметов
 def index(request):
@@ -217,6 +222,50 @@ class CharacterViewSet(viewsets.ModelViewSet):
     serializer_class = CharacterSerializer  # Указываем сериализатор для персонажей
     permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
     pagination_class = Pagination # Пагинация
+
+# Дополнительное действие для получения статистики всех персонажей
+    @action(methods=['GET'], detail=False)
+    def statistics(self, request):
+        total_characters = self.queryset.count()  # Получаем общее количество персонажей
+        return Response({"total_characters": total_characters}, status=status.HTTP_200_OK)
+    
+    @action(methods=['POST'], detail=True)
+    def equip_item(self, request, pk=None):
+        try:
+            # Получаем персонажа по ID
+            character = self.get_object()
+
+            # Получаем ID предмета из данных запроса
+            item_id = request.data.get('item_id')
+            quantity = request.data.get('quantity', 1)  # Используем 1 по умолчанию, если quantity не указано
+
+            if not item_id:
+                return Response({"error": "Item ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Получаем предмет по ID
+            item = get_object_or_404(Item, pk=item_id)
+
+            # Проверяем, есть ли этот предмет у персонажа
+            character_item = CharacterItem.objects.filter(character=character, item=item).first()
+
+            if not character_item:
+                # Если предмет еще не был добавлен, создаем запись с quantity
+                character_item = CharacterItem.objects.create(character=character, item=item, quantity=quantity)
+
+            # Экипируем предмет (поставим флаг equipped=True)
+            character_item.equipped = True
+            character_item.save()
+
+            return Response({
+                "message": f"Item '{item.name}' equipped to character '{character.name}'",
+                "character": character.name,
+                "item": item.name,
+                "quantity": character_item.quantity
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 # ViewSet для работы с предметами через API
 class ItemViewSet(viewsets.ModelViewSet):
