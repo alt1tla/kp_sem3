@@ -17,8 +17,10 @@
             font-size: 1.2em;
         }
         .character-class {
-            font-style: italic;
             color: #555;
+        }
+        .character-desc {
+            font-style: italic;
         }
         .character-details {
             margin-top: 10px;
@@ -36,10 +38,10 @@
     </style>
 </head>
 <body>
-    <h1>Список персонажей</h1>
+    <h1>Characters List</h1>
     <div id="characters-container"></div>
-    <button id="prev-button">Назад</button>
-    <button id="next-button">Вперед</button>
+    <button id="prev-button">Back</button>
+    <button id="next-button">Forward</button>
 
     <script>
         let currentPage = 1;
@@ -61,8 +63,9 @@
                     
                     // Добавим имя персонажа и класс
                     div.innerHTML = `
-                        <h3>${character.name} (Level: ${character.level})</h3>
-                        <p class="character-class">Class: ${character.character_class.name} - ${character.character_class.description}</p>
+                        <h3>${character.name} <span class="character-class">(${character.character_class.name})</span></h3>
+                        <p class="character-desc">${character.character_class.description}</p>
+                        <p><strong>Level:</strong> ${character.level} </p>
                         <div class="character-details">
                             <p><strong>Experience:</strong> ${character.experience}</p>
                             <p><strong>Created At:</strong> ${new Date(character.created_at).toLocaleString()}</p>

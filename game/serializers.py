@@ -39,12 +39,12 @@ class CharacterSerializer(serializers.ModelSerializer):
         name = data['name']  # Получаем имя персонажа из данных
         # Проверяем, существует ли уже персонаж с таким именем у этого пользователя
         if Character.objects.filter(user=user, name=name).exists():
-            raise serializers.ValidationError("Персонаж с таким именем уже существует у этого игрока.")
+            raise serializers.ValidationError("Character with same name already exist.")
         
         # Проверка уровня персонажа (он должен быть в пределах от 1 до 100)
         level = data.get('level', 1)  # Если уровень не передан, используем 1 по умолчанию
         if not (1 <= level <= 100):
-            raise serializers.ValidationError("Уровень персонажа должен быть в диапазоне от 1 до 100.")
+            raise serializers.ValidationError("Level must be in range from 1 to 100.")
         
         # Возвращаем обработанные данные
         return data

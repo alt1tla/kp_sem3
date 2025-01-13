@@ -128,49 +128,6 @@ def complex_query_2(request):
 def pagination(request):
     return render(request, 'pagination.html') # Рендер результата
 
-# Класс для удаления пользователя
-class DeleteUser(DeleteView):
-    model = Player  # Указываем модель пользователя
-    template_name = 'delete_user_confirm.html'  # Шаблон для подтверждения удаления
-    success_url = reverse_lazy("index")  # Перенаправление на главную страницу после удаления
-
-# Класс пагинации вывода персонажей 
-class CharacterPagination(PageNumberPagination):
-    page_size = 1  # Установите количество элементов на странице
-    page_size_query_param = 'page_size'  # Позволяет пользователю переопределять размер страницы через параметр
-    max_page_size = 20  # Максимальный размер страницы
-
-# ViewSet для работы с персонажами через API
-class CharacterViewSet(viewsets.ModelViewSet):
-    queryset = Character.objects.all()  # Получаем все персонажи
-    serializer_class = CharacterSerializer  # Указываем сериализатор для персонажей
-    permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
-    pagination_class = CharacterPagination # Пагинация
-
-# ViewSet для работы с игроками через API
-class PlayerViewSet(viewsets.ModelViewSet):
-    queryset = Player.objects.all()  # Получаем всех игроков
-    serializer_class = PlayerSerializer  # Указываем сериализатор для игроков
-    permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
-
-# ViewSet для работы с предметами через API
-class ItemViewSet(viewsets.ModelViewSet):
-    queryset = Item.objects.all()  # Получаем все предметы
-    serializer_class = ItemSerializer  # Указываем сериализатор для предметов
-    permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
-
-# ViewSet для работы с квестами через API
-class QuestViewSet(viewsets.ModelViewSet):
-    queryset = Quest.objects.all()  # Получаем все квесты
-    serializer_class = QuestSerializer  # Указываем сериализатор для квестов
-    permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
-
-# ViewSet для работы с классами персонажей через API
-class CharacterClassViewSet(viewsets.ModelViewSet):
-    queryset = CharacterClass.objects.all()  # Получаем все классы персонажей
-    serializer_class = CharacterClassSerializer  # Указываем сериализатор для классов персонажей
-    permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
-
 # Класс для регистрации нового пользователя
 class RegistrationView(FormView):
     form_class = RegistrationForm  # Указываем форму для регистрации
@@ -180,3 +137,50 @@ class RegistrationView(FormView):
     def form_valid(self, form):
         form.save()  # Сохраняем нового пользователя
         return super().form_valid(form)  # Перенаправляем на страницу профиля
+
+# Класс для удаления пользователя
+class DeleteUser(DeleteView):
+    model = Player  # Указываем модель пользователя
+    template_name = 'delete_user_confirm.html'  # Шаблон для подтверждения удаления
+    success_url = reverse_lazy("index")  # Перенаправление на главную страницу после удаления
+
+# Класс пагинации вывода персонажей 
+class Pagination(PageNumberPagination):
+    page_size = 1  # Установите количество элементов на странице
+    page_size_query_param = 'page_size'  # Позволяет пользователю переопределять размер страницы через параметр
+    max_page_size = 20  # Максимальный размер страницы
+
+# ViewSet для работы с персонажами через API
+class CharacterViewSet(viewsets.ModelViewSet):
+    queryset = Character.objects.all()  # Получаем все персонажи
+    serializer_class = CharacterSerializer  # Указываем сериализатор для персонажей
+    permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
+    pagination_class = Pagination # Пагинация
+
+# ViewSet для работы с предметами через API
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all()  # Получаем все предметы
+    serializer_class = ItemSerializer  # Указываем сериализатор для предметов
+    permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
+    pagination_class = Pagination # Пагинация
+
+# ViewSet для работы с квестами через API
+class QuestViewSet(viewsets.ModelViewSet):
+    queryset = Quest.objects.all()  # Получаем все квесты
+    serializer_class = QuestSerializer  # Указываем сериализатор для квестов
+    permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
+    pagination_class = Pagination # Пагинация
+
+# ViewSet для работы с классами персонажей через API
+class CharacterClassViewSet(viewsets.ModelViewSet):
+    queryset = CharacterClass.objects.all()  # Получаем все классы персонажей
+    serializer_class = CharacterClassSerializer  # Указываем сериализатор для классов персонажей
+    permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
+    pagination_class = Pagination # Пагинация
+
+#? Нужен ли API для пользовательских аккаунтов
+# ViewSet для работы с игроками через API
+# class PlayerViewSet(viewsets.ModelViewSet):
+#     queryset = Player.objects.all()  # Получаем всех игроков
+#     serializer_class = PlayerSerializer  # Указываем сериализатор для игроков
+#     permission_classes = [IsSuperUserOrReadOnly]  # Разрешения: только суперпользователь может изменять данные
