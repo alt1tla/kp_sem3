@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.views.generic.edit import FormView, DeleteView
 from django.db.models import Q
 from rest_framework.pagination import PageNumberPagination
+from django.core.paginator import Paginator
 
 # Главная страница с перечнем квестов и предметов
 def index(request):
@@ -68,11 +69,16 @@ def character_detail(request, character_id):
         character_quests__status='completed'  # Исключаем завершённые квесты
     )
 
+    # Пагинация для доступных квестов (3 на страницу)
+    paginator = Paginator(available_quests, 1)  # 3 квеста на странице
+    page_number = request.GET.get('page')  # Получаем номер страницы из URL
+    page_obj = paginator.get_page(page_number)  # Получаем страницу
+
     return render(request, "character.html", {
         'character': character, 
         'inventory': inventory, 
         'quests': quests, 
-        'available_quests': available_quests
+        'page_obj': page_obj  # Передаем объект пагинации в шаблон
     })  # Рендерим шаблон
 
 # Функция для принятия квеста персонажем

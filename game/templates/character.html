@@ -12,9 +12,9 @@ Character Detail
 {% block content %}
 <div class="container">
   <section class="profile-card">
-    <h1 class="profile-username">{{ character.name }}</h1>
-    <p class="profile-info">Level: {{ character.level }}</p>
-    <p class="profile-info">Experience: {{ character.experience }}</p>
+    <a class="btn" href="{% url 'profile' %}">Back to Profile</a>
+    <h1 class="profile-username">{{ character }}</h1>
+    <p class="profile-info">Level: {{ character.level }} (Exp: {{ character.experience }})</p>
     <p class="profile-info">Created at: {{ character.created_at|date:"d M Y" }}</p>
 
     <h2 class="profile-info">Inventory</h2>
@@ -62,14 +62,14 @@ Character Detail
 
     <h2>Available Quests</h2>
     <ul class="available-quests">
-        {% for quest in available_quests %}
+        {% for quest in page_obj %}
             <li>
                 <span class="{% if quest.difficulty == 'impossible' %}impossible{% elif quest.difficulty == 'hard' %}hard{% elif quest.difficulty == 'medium' %}medium{% elif quest.difficulty == 'easy' %}easy{% endif %}">
                     <strong>{{ quest.name }}</strong>
                 </span> - {{ quest.description }}
                 <form action="{% url 'take_quest' quest.quest_id character.character_id %}" method="post">
                   {% csrf_token %}
-                  <button class="btn" type="submit">Take Quest</button>
+                  <button class="btn-login" type="submit">Take Quest</button>
                 </form>
             </li>
         {% empty %}
@@ -77,7 +77,21 @@ Character Detail
         {% endfor %}
     </ul>
 
-    <a class="btn-login" href="{% url 'profile' %}">Back to Profile</a>
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current-page">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </div>
   </section>
 
   <!-- Legend Section -->

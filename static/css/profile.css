@@ -166,10 +166,28 @@
   margin-bottom: 10px; /* Отступ между элементами списка */
 }
 
-.available-quests {
-  max-height: 150px; /* Установите максимальную высоту, соответствующую 5 строкам */
-  overflow-y: auto; /* Добавляет прокрутку, если содержимое превышает максимальную высоту */
-  border: 1px solid var(--color--2--); /* Добавьте рамку, если нужно */
-  padding: 10px; /* Внутренние отступы */
-  background-color: var(--color--3--); /* Цвет фона */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  padding: 10px;
+  text-decoration: none;
+  border: 1px solid var(--color--2--); /* Рамка вокруг легенды */
+
+  color: #333;
+  margin: 0 5px;
+  border-radius: 5px;
+}
+
+.pagination a:hover {
+  background-color: var(--color--3--);
+}
+
+.pagination .current-page {
+  padding: 10px;
+  font-weight: bold;
+  background-color: var(--color--3--);
+  margin: 0 5px;
 }
