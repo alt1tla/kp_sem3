@@ -7,6 +7,7 @@ from game.models import Item, Quest, Player, Character, CharacterItem, Character
 from game.permissions import IsSuperUserOrReadOnly
 from .serializers import CharacterSerializer, CharacterClassSerializer, ItemSerializer, PlayerSerializer, QuestSerializer
 from .forms import * 
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
 from django.views.generic.edit import FormView, DeleteView
@@ -95,23 +96,63 @@ def take_quest(request, quest_id, character_id):
         )
         return redirect('character_detail', character_id=character.character_id)  # Перенаправляем на страницу персонажа
 
-# Отрисовка предметов 
+# Отрисовка предметов с фильтрацией
 def explore_items(request):
     search_query = request.GET.get('search', '')
+    type_filter = request.GET.get('type', '')  # Получаем параметр для фильтрации по типу
 
     # Фильтруем предметы по названию, если задан поисковый запрос
     item_list = Item.objects.filter(name__icontains=search_query) if search_query else Item.objects.all()
+
+    # Фильтрация по типу
+    if type_filter:
+        item_list = item_list.filter(type=type_filter)
 
     # Пагинация
     paginator = Paginator(item_list, 5)  # Показывать по 5 предметов на странице
     page_number = request.GET.get('page')
     items = paginator.get_page(page_number)
 
-    return render(request, 'items.html', {'items': items, 'search_query': search_query})
+    return render(request, 'items.html', {'items': items, 'search_query': search_query, 'type_filter': type_filter})
 
-# Отрисовка квестовой книги
+# Отрисовка квестовой книги с фильтрацией
 def quest_book(request):
-    return render(request, 'quest_book.html') # Рендер результата
+    # Получаем параметры фильтрации из GET запроса
+    difficulty_filter = request.GET.get('difficulty', '')
+    date_from_filter = request.GET.get('date_from', '')
+    date_to_filter = request.GET.get('date_to', '')
+    
+    # Начинаем с получения всех квестов
+    quest_list = Quest.objects.all()
+
+    # Фильтрация по сложности
+    if difficulty_filter:
+        quest_list = quest_list.filter(difficulty=difficulty_filter)
+    
+    # Фильтрация по диапазону дат (если указаны)
+    if date_from_filter:
+        date_from = datetime.strptime(date_from_filter, "%Y-%m-%d")
+        quest_list = quest_list.filter(created_at__gte=date_from)
+    
+    if date_to_filter:
+        date_to = datetime.strptime(date_to_filter, "%Y-%m-%d")
+        quest_list = quest_list.filter(created_at__lte=date_to)
+
+    # Фильтрация для текущего аутентифицированного пользователя
+    if request.user.is_authenticated:
+        quest_list = quest_list.filter(character_quests__character__user=request.user)
+
+    # Пагинация
+    paginator = Paginator(quest_list, 3)  # Показывать по 3 квестов на странице
+    page_number = request.GET.get('page')
+    quests = paginator.get_page(page_number)
+
+    return render(request, 'quests.html', {
+        'quests': quests,
+        'difficulty_filter': difficulty_filter,
+        'date_from_filter': date_from_filter,
+        'date_to_filter': date_to_filter,
+    })
 
 # Страница редактирования профиля
 def edit_profile(request):

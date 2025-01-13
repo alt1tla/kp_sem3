@@ -31,11 +31,12 @@ Profile
                 <li>No characters created yet.</li>
             {% endfor %}
         </ul>
+        <a class="btn-login" href="{% url 'quest_book' %}">Quest book</a>
+        <a class="btn-login" href="{% url 'explore_items' %}">Explore the items</a>
         <form method="post" action="{% url 'create_character' %}">
           {% csrf_token %}
           {{ form.as_p }}
           <button type="submit" class="btn-login">Create Character</button>
       </form>
-      <a class="btn-login" href="{% url 'explore_items' %}">Explore the items</a>
   </section>
 {% endblock content %}

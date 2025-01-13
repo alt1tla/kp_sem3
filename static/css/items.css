@@ -65,3 +65,16 @@
   margin-top: 50px;
   margin-bottom: 50px;
 }
+
+.btn-pag {
+  background-color: var(--color--2--) !important;
+  border: none;
+  padding: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--color--1--) !important;
+  font-family: 'RedditMono-Bold' !important;
+  margin: 0 10px;
+  display: block;
+  max-width: max-content;
+}

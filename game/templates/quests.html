@@ -1,0 +1,70 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block link %}
+<link href="{% static 'css/items.css' %}" rel="stylesheet">
+{% endblock link %}
+
+{% block title %}
+Quest book
+{% endblock title %}
+
+{% block content %}
+<section class="wrapper">
+  <!-- Форма фильтрации -->
+  <form method="get" action="{% url 'quest_book' %}">
+    <label for="difficulty">Difficulty:</label>
+    <select name="difficulty" id="difficulty">
+      <option value="">All</option>
+      <option value="easy" {% if difficulty_filter == 'Easeasyy' %}selected{% endif %}>Easy</option>
+      <option value="medium" {% if difficulty_filter == 'medium' %}selected{% endif %}>Medium</option>
+      <option value="hard" {% if difficulty_filter == 'hard' %}selected{% endif %}>Hard</option>
+      <option value="impossible" {% if difficulty_filter == 'impossible' %}selected{% endif %}>Impossible</option>
+    </select>
+    
+    <label for="date_from">From:</label>
+    <input type="date" name="date_from" id="date_from" value="{{ date_from_filter }}">
+
+    <label for="date_to">To:</label>
+    <input type="date" name="date_to" id="date_to" value="{{ date_to_filter }}">
+
+    <button type="submit">Filter</button>
+  </form>
+
+  <!-- Список квестов -->
+  <div class="cards m">
+    {% if quests %}
+      {% for quest in quests %}
+        <div class="card wrapper">
+          <div class="card-header">
+            <h3>{{ quest.name }} <span class="opacity-75">({{ quest.difficulty }})</span></h3>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p class="fz">{{ quest.description }}</p>
+              <footer class="blockquote-footer fz">{{ quest.reward }}</footer>
+            </blockquote>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No quests found.</p>
+    {% endif %}
+  </div>
+
+  <!-- Пагинация -->
+  <div class="pagination">
+    {% if quests.has_previous %}
+      <a class="btn-pag" href="?page=1&difficulty={{ difficulty_filter }}&date_from={{ date_from_filter }}&date_to={{ date_to_filter }}&author={{ author_filter }}">First</a>
+      <a class="btn-pag" href="?page={{ quests.previous_page_number }}&difficulty={{ difficulty_filter }}&date_from={{ date_from_filter }}&date_to={{ date_to_filter }}&author={{ author_filter }}">Previous</a>
+    {% endif %}
+
+    <span class="current-page">Page {{ quests.number }} of {{ quests.paginator.num_pages }}</span>
+
+    {% if quests.has_next %}
+      <a class="btn-pag" href="?page={{ quests.next_page_number }}&difficulty={{ difficulty_filter }}&date_from={{ date_from_filter }}&date_to={{ date_to_filter }}&author={{ author_filter }}">Next</a>
+      <a class="btn-pag" href="?page={{ quests.paginator.num_pages }}&difficulty={{ difficulty_filter }}&date_from={{ date_from_filter }}&date_to={{ date_to_filter }}&author={{ author_filter }}">Last</a>
+    {% endif %}
+  </div>
+</section>
+{% endblock content %}

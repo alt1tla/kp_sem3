@@ -11,9 +11,18 @@ Explore the items
 
 {% block content %}
 <section class="wrapper" >
-<!-- Форма поиска -->
+<!-- Форма фильтрации -->
 <form method="get" action="{% url 'explore_items' %}">
   <input type="text" name="search" placeholder="Search items..." value="{{ search_query }}">
+  <label for="type">Type:</label>
+  <select name="type" id="type">
+    <option value="">All</option>
+    <option value="armor" {% if type_filter == 'armor' %}selected{% endif %}>Armor</option>
+    <option value="potion" {% if type_filter == 'potion' %}selected{% endif %}>Potion</option>
+    <option value="scroll" {% if type_filter == 'scroll' %}selected{% endif %}>Scroll</option>
+    <option value="weapon" {% if type_filter == 'weapon' %}selected{% endif %}>Weapon</option>
+    <option value="accessory" {% if type_filter == 'accessory' %}selected{% endif %}>Accessory</option>
+  </select>
   <button type="submit">Search</button>
 </form>
     <div class="cards m">
@@ -31,15 +40,15 @@ Explore the items
     </div>
     <div class="pagination">
       {% if items.has_previous %}
-          <a href="?page=1&search={{ search_query }}">First</a>
-          <a href="?page={{ items.previous_page_number }}&search={{ search_query }}">Previous</a>
+          <a class="btn-pag" href="?page=1&search={{ search_query }}&type={{ type_filter }}">First</a>
+          <a class="btn-pag" href="?page={{ items.previous_page_number }}&search={{ search_query }}&type={{ type_filter }}">Previous</a>
       {% endif %}
       
       <span class="current-page">Page {{ items.number }} of {{ items.paginator.num_pages }}</span>
       
       {% if items.has_next %}
-          <a href="?page={{ items.next_page_number }}&search={{ search_query }}">Next</a>
-          <a href="?page={{ items.paginator.num_pages }}&search={{ search_query }}">Last</a>
+          <a class="btn-pag" href="?page={{ items.next_page_number }}&search={{ search_query }}&type={{ type_filter }}">Next</a>
+          <a class="btn-pag" href="?page={{ items.paginator.num_pages }}&search={{ search_query }}&type={{ type_filter }}">Last</a>
       {% endif %}
   </div>
   
