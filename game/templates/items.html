@@ -1,0 +1,47 @@
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block link %}
+<link href="{% static 'css/items.css' %}" rel="stylesheet">
+{% endblock link %}
+
+{% block title %}
+Explore the items
+{% endblock title %}
+
+{% block content %}
+<section class="wrapper" >
+<!-- Форма поиска -->
+<form method="get" action="{% url 'explore_items' %}">
+  <input type="text" name="search" placeholder="Search items..." value="{{ search_query }}">
+  <button type="submit">Search</button>
+</form>
+    <div class="cards m">
+        {% if items %}
+            {% for item in items %}
+                <div class="card bigs">
+                  <a class="text" href="{% url 'item' item.pk %}">
+                    <h1 class="card-text">{{ item.name }}</h1>
+                </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No items found.</p>
+        {% endif %}
+    </div>
+    <div class="pagination">
+      {% if items.has_previous %}
+          <a href="?page=1&search={{ search_query }}">First</a>
+          <a href="?page={{ items.previous_page_number }}&search={{ search_query }}">Previous</a>
+      {% endif %}
+      
+      <span class="current-page">Page {{ items.number }} of {{ items.paginator.num_pages }}</span>
+      
+      {% if items.has_next %}
+          <a href="?page={{ items.next_page_number }}&search={{ search_query }}">Next</a>
+          <a href="?page={{ items.paginator.num_pages }}&search={{ search_query }}">Last</a>
+      {% endif %}
+  </div>
+  
+</section>
+{% endblock content %}

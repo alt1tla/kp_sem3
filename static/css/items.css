@@ -40,3 +40,28 @@
     font-size: 2.2rem !important;
 }
 
+.bigs {
+  display: flex;
+  justify-content: center;
+  min-height: 150px;
+  padding: 20px;
+}
+
+.bigs:hover{
+  background-color: var(--color--4--) !important;
+  cursor: pointer;
+
+}
+
+.text{
+  color: var(--color--1--) !important;
+}
+
+.text:hover{
+  color: var(--color--3--) !important;
+}
+
+.m {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}

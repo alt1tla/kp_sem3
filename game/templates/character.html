@@ -12,7 +12,13 @@ Character Detail
 {% block content %}
 <div class="container">
   <section class="profile-card">
-    <a class="btn" href="{% url 'profile' %}">Back to Profile</a>
+    <!-- Кнопки для навигации -->
+    <div class="button-group">
+      <a class="btn" href="{% url 'profile' %}">Back to Profile</a>
+      <a class="btn" href="{% url 'explore_items' %}">Explore the items</a>
+      <a class="btn" href="{% url 'quest_book' %}">Quest book</a>
+    </div>
+
     <h1 class="profile-username">{{ character }}</h1>
     <p class="profile-info">Level: {{ character.level }} (Exp: {{ character.experience }})</p>
     <p class="profile-info">Created at: {{ character.created_at|date:"d M Y" }}</p>

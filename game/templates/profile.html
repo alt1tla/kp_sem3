@@ -10,21 +10,17 @@ Profile
 {% endblock title %}
 
 {% block content %}
-  <section class="profile-card">
+  <section class="profile-card m">
     <h1 class="profile-info" id="username">Hi, <span class="profile-username">{{ user.username }}</span>!</h1>
     <p class="profile-info" id="email">Your email: <a href="mailto:{{ user.email }}" class="profile-email">{{ user.email }}</a></p>
-    <form method="post" action="{% url 'create_character' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn-login">Create Character</button>
-    </form>
+    
     <a href="{% url 'edit_profile' %}" class="btn-login">Edit profile</a>
     <a href="{% url 'password_change' %}" class="btn-login">Change password</a>
     <a href="{% url 'delete_user' user.user_id %}" class="btn-login btn-delete">Delete an account</a>
-  
   </section>
   
   <section class="profile-card">
+    
     <h2 class="profile-info">Your Characters:</h2>
         <ul>
             {% for character in characters %}
@@ -35,5 +31,11 @@ Profile
                 <li>No characters created yet.</li>
             {% endfor %}
         </ul>
+        <form method="post" action="{% url 'create_character' %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn-login">Create Character</button>
+      </form>
+      <a class="btn-login" href="{% url 'explore_items' %}">Explore the items</a>
   </section>
 {% endblock content %}

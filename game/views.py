@@ -95,6 +95,24 @@ def take_quest(request, quest_id, character_id):
         )
         return redirect('character_detail', character_id=character.character_id)  # Перенаправляем на страницу персонажа
 
+# Отрисовка предметов 
+def explore_items(request):
+    search_query = request.GET.get('search', '')
+
+    # Фильтруем предметы по названию, если задан поисковый запрос
+    item_list = Item.objects.filter(name__icontains=search_query) if search_query else Item.objects.all()
+
+    # Пагинация
+    paginator = Paginator(item_list, 5)  # Показывать по 5 предметов на странице
+    page_number = request.GET.get('page')
+    items = paginator.get_page(page_number)
+
+    return render(request, 'items.html', {'items': items, 'search_query': search_query})
+
+# Отрисовка квестовой книги
+def quest_book(request):
+    return render(request, 'quest_book.html') # Рендер результата
+
 # Страница редактирования профиля
 def edit_profile(request):
     if request.method == "POST":

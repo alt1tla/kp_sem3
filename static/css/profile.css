@@ -8,6 +8,11 @@
     font-size: 62.5%;
 }
 
+.m{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 .profile-card {
     background-color: var(--color--3--);
     padding: 20px;
