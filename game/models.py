@@ -1,7 +1,7 @@
 from django.db import models  # Импортируем модуль для работы с моделями Django
 from django.contrib.auth.models import AbstractUser  # Импортируем абстрактную модель пользователя
 from django.core.exceptions import ValidationError  # Импортируем исключение для валидации
-
+from simple_history.models import HistoricalRecords
 # Модель для представления игроков (пользователей)
 class Player(AbstractUser):
     user_id = models.AutoField(primary_key=True)  # Уникальный идентификатор пользователя (auto-generated)
@@ -38,6 +38,7 @@ class Character(models.Model):
     experience = models.IntegerField()  # Опыт персонажа
     character_class = models.ForeignKey(CharacterClass, on_delete=models.SET_NULL, null=True)  # Класс персонажа
     created_at = models.DateTimeField(auto_now_add=True)  # Дата и время создания персонажа
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"{self.name} ({self.character_class.name})"  # Строковое представление персонажа (имя и класс)
