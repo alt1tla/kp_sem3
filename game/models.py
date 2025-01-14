@@ -38,7 +38,7 @@ class Character(models.Model):
     experience = models.IntegerField()  # Опыт персонажа
     character_class = models.ForeignKey(CharacterClass, on_delete=models.SET_NULL, null=True)  # Класс персонажа
     created_at = models.DateTimeField(auto_now_add=True)  # Дата и время создания персонажа
-    history = HistoricalRecords()
+    history = HistoricalRecords()  # История изменений
 
     def __str__(self):
         return f"{self.name} ({self.character_class.name})"  # Строковое представление персонажа (имя и класс)
@@ -54,9 +54,16 @@ class Character(models.Model):
         if not (1 <= self.level <= 100):
             raise ValidationError("Level must be in range from 1 to 100.")
 
-        # Проверка, что имя персонажа уникально для данного пользователя
-        if Character.objects.filter(user=self.user, name=self.name).exists():
-            raise ValidationError("Character with same name already exist.")
+        # Проверка, что имя персонажа уникально для данного пользователя,
+        # исключая текущего персонажа из проверки
+        if self.character_id:
+            # Если это редактирование существующего персонажа, исключаем его из проверки
+            if Character.objects.filter(user=self.user, name=self.name).exclude(character_id=self.character_id).exists():
+                raise ValidationError("Character with same name already exists.")
+        else:
+            # Если это новый персонаж, то проверка на уникальность
+            if Character.objects.filter(user=self.user, name=self.name).exists():
+                raise ValidationError("Character with same name already exists.")
 
     def save(self, *args, **kwargs):
         self.full_clean()  # Запускаем полную валидацию перед сохранением объекта
@@ -64,11 +71,19 @@ class Character(models.Model):
 
 # Модель для представления предметов
 class Item(models.Model):
+    RARITY_CHOICES = [
+        ('Common', 'Common'),
+        ('Uncommon', 'Uncommon'),
+        ('Rare', 'Rare'),
+        ('Epic', 'Epic'),
+        ('Legendary', 'Legendary'),
+    ]
+    
     item_id = models.AutoField(primary_key=True)  # Уникальный идентификатор предмета
     name = models.CharField(max_length=100)  # Название предмета
     description = models.TextField()  # Описание предмета
     type = models.CharField(max_length=50)  # Тип предмета (например, оружие, броня и т.д.)
-    rarity = models.CharField(max_length=50)  # Редкость предмета
+    rarity = models.CharField(max_length=50, choices=RARITY_CHOICES)  # Редкость предмета
     value = models.IntegerField()  # Ценность предмета (например, в деньгах или очках)
 
     def __str__(self):
