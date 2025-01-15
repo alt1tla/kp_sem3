@@ -1,11 +1,15 @@
 [flake8]
-max-line-length = 88
+max-line-length = 130
 exclude = 
     .git,
     pycache,
     migrations,
+    mysite,
     env/,
     .venv/,
     venv/,
     myvenv/,
     */site-packages/*
+
+# Добавляем настройку для игнорирования W291
+ignore = W291

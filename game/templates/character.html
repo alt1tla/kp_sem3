@@ -17,6 +17,8 @@ Character Detail
       <a class="btn" href="{% url 'profile' %}">Back to Profile</a>
       <a class="btn" href="{% url 'explore_items' %}">Explore the items</a>
       <a class="btn" href="{% url 'quest_book' %}">Quest book</a>
+      <a class="btn" href="{% url 'complex_query_1' %}?character_id={{ character.character_id }}">Weekend challenges</a>
+      <a class="btn" href="{% url 'complex_query_2' %}">Leader board</a>
     </div>
 
     <h1 class="profile-username">{{ character }}</h1>

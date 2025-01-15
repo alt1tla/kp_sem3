@@ -1,31 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Characters with Items</title>
-</head>
-<body>
-    <h1>Characters with Specific Items</h1>
-    {% if characters %}
-        <ul>
-            {% for character in characters %}
-                <li>
-                    <strong>{{ character.name }}</strong> <br>
-                    Level: {{ character.level }} <br>
-                    Items: 
-                    <ul>
-                        {% for item in character.characteritem_set.all %}
-                            {% if item.item.type in "weapon, armor" and item.item.rarity != "legendary" %}
-                                <li>{{ item.item.name }} ({{ item.item.type }}, {{ item.item.rarity }})</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No characters found with the specified criteria.</p>
-    {% endif %}
-</body>
-</html>
+{% extends "wrapper.html" %}
+{% load static %}
+
+{% block link %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+<link href="{% static 'css/items.css' %}" rel="stylesheet">
+<link href="{% static 'css/item.css' %}" rel="stylesheet">
+{% endblock link %}
+
+{% block title %}
+Leader board
+{% endblock title %}
+
+{% block content %}
+<section class="item wrapper" id="item">
+  <h1 class="product-name">Leader Board</h1>
+  {% if characters %}
+      <ul>
+          {% for character in characters %}
+              <li class="card mins">
+                  <strong>{{ forloop.counter }}. {{ character }} ({{ character.level }})</strong>
+                  <ul>
+                      {% for item in character.characteritem_set.all %}
+                          {% if item.item.type in "weapon, armor" and item.item.rarity == "Legendary" %}
+                              <li>{{ item.item.name }} ({{ item.item.type }}, {{ item.item.rarity }})</li>
+                          {% endif %}
+                      {% endfor %}
+                  </ul>
+              </li>
+          {% endfor %}
+      </ul>
+  {% else %}
+      <p>No characters found with the specified criteria.</p>
+  {% endif %}
+</section>
+
+<section class="call-to-action" id="call-to-action">
+    <h2 class="text-center wrapper">Will you accept the challenge of the Eternal Odyssey?</h2>
+    <div class="wrapper">
+        <p>Begin a legendary quest of discovery and bravery, venture into a boundless open world, confront formidable
+            foes,
+            and unravel the mysteries of a long-lost realm, where ancient secrets and hidden wonders await.
+            Join the adventure and experience the ultimate RPG experience.
+        </p>
+        <a href="{% url 'index' %}" class="join-btn">Explore Alfa right now!</a>
+    </div>
+</section>
+{% endblock content %}

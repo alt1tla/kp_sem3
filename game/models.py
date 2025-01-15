@@ -2,14 +2,16 @@ from django.db import models  # Импортируем модуль для ра�
 from django.contrib.auth.models import AbstractUser  # Импортируем абстрактную модель пользователя
 from django.core.exceptions import ValidationError  # Импортируем исключение для валидации
 from simple_history.models import HistoricalRecords
+
+
 # Модель для представления игроков (пользователей)
 class Player(AbstractUser):
-    user_id = models.AutoField(primary_key=True)  # Уникальный идентификатор пользователя (auto-generated)
-    username = models.CharField(max_length=50, unique=True)  # Имя пользователя, должно быть уникальным
+    user_id = models.AutoField(primary_key=True)  # Уникальный идентификатор пользователя 
+    username = models.CharField(max_length=50, unique=True)  # Имя должно быть уникальным
     email = models.EmailField(max_length=100)  # Адрес электронной почты пользователя
     password = models.CharField(max_length=100)  # Пароль пользователя
     created_at = models.DateTimeField(auto_now_add=True)  # Дата и время создания пользователя
-    last_login = models.DateTimeField(null=True, blank=True)  # Дата и время последнего входа пользователя
+    last_login = models.DateTimeField(null=True, blank=True)  # Дата и время последнего входа 
 
     # Указываем, что для аутентификации будет использоваться поле username
     USERNAME_FIELD = 'username'  
@@ -18,6 +20,7 @@ class Player(AbstractUser):
 
     def __str__(self):
         return self.username  # Строковое представление пользователя (по имени пользователя)
+
 
 class CharacterClass(models.Model):
     name = models.CharField(max_length=50, unique=True)  # Название класса (например, "Warrior")
@@ -36,16 +39,16 @@ class Character(models.Model):
     name = models.CharField(max_length=50)  # Имя персонажа
     level = models.IntegerField(default=1)  # Уровень персонажа, начальное значение — 1
     experience = models.IntegerField()  # Опыт персонажа
-    character_class = models.ForeignKey(CharacterClass, on_delete=models.SET_NULL, null=True)  # Класс персонажа
+    character_class = models.ForeignKey(CharacterClass, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)  # Дата и время создания персонажа
     history = HistoricalRecords()  # История изменений
 
     def __str__(self):
-        return f"{self.name} ({self.character_class.name})"  # Строковое представление персонажа (имя и класс)
+        return f"{self.name} ({self.character_class.name})"  # Строковое представление персонажа 
 
     def clean(self):
         super().clean()  # Вызываем родительский метод clean()
-        
+
         # Проверяем, что поле user уже установлено
         if not self.user_id:  # Используем `user_id`, чтобы избежать обращения к объекту
             return  # Если пользователь ещё не установлен, не проводим дальнейших проверок

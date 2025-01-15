@@ -40,6 +40,13 @@
     font-size: 2.2rem !important;
 }
 
+.mins {
+  display: flex;
+  justify-content: center;
+  min-height: 150px;
+  padding: 20px;
+}
+
 .bigs {
   display: flex;
   justify-content: center;

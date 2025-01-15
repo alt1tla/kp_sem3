@@ -19,6 +19,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
+from django.db.models import Count, Q, Sum
+
 
 # Главная страница с перечнем квестов и предметов
 def index(request):
@@ -65,18 +67,23 @@ def create_character(request):
 @login_required
 def character_detail(request, character_id):
     character = get_object_or_404(Character, character_id=character_id)  # Получаем персонажа по ID или 404, если не найден
+
+    # Проверяем, принадлежит ли персонаж текущему пользователю
+    if character.user != request.user:
+        raise PermissionDenied("You do not have permission to access this character.")
+
     inventory = CharacterItem.objects.filter(character=character)  # Получаем инвентарь персонажа
     quests = CharacterQuest.objects.filter(character=character)  # Получаем квесты персонажа
 
     # Фильтруем доступные квесты, исключая те, которые уже были приняты этим персонажем
     available_quests = Quest.objects.exclude(
-        character_quests__character=character  # Исключаем уже принятые квесты
+        character_quests__character=character  # Исключаем квесты, уже принятые этим персонажем
     ).exclude(
-        character_quests__status='completed'  # Исключаем завершённые квесты
-    )
+        character_quests__character=character,  # Исключаем завершённые этим персонажем квесты
+        character_quests__status='completed')
 
     # Пагинация для доступных квестов (3 на страницу)
-    paginator = Paginator(available_quests, 1)  # 3 квеста на странице
+    paginator = Paginator(available_quests, 1)  # 1 квеста на странице
     page_number = request.GET.get('page')  # Получаем номер страницы из URL
     page_obj = paginator.get_page(page_number)  # Получаем страницу
 
@@ -177,16 +184,18 @@ def complex_query_1(request):
         (Q(difficulty="hard") | Q(difficulty="impossible")) &  # Сложность "Hard" или "Impossible"
         ~Q(character_quests__character_id=character_id)  # Исключаем уже связанные квесты
     )
-    
     return render(request, "complex_query_1.html", {"quests": quests})  # Рендерим результат
 
 # Сложный запрос для фильтрации персонажей
 def complex_query_2(request):
-    rarity_exclude = "legendary"  # Исключаем редкость
+    # Выбираем персонажей, у которых есть предметы типа "weapon" или "armor" с редкостью "Legendary"
     characters = Character.objects.filter(
-        (Q(characteritem__item__type="weapon") | Q(characteritem__item__type="armor")) &  # Предметы типа "weapon" или "armor"
-        ~Q(characteritem__item__rarity=rarity_exclude)  # Исключаем редкость "legendary"
-    ).distinct()  # Убираем дубли персонажей
+        Q(characteritem__item__type__in=["weapon", "armor"]) &  # Тип "weapon" или "armor"
+        Q(characteritem__item__rarity="Legendary")  # Редкость "Legendary"
+    ).annotate(
+        legendary_item_count=Count('characteritem', filter=Q(characteritem__item__rarity="Legendary")),  # Подсчет легендарных предметов
+        total_score=Sum('characteritem__item__value') + Sum('level')  # Общий рейтинг: сумма ценности предметов + уровень
+    ).order_by('-legendary_item_count', '-level')[:5]  # Сортируем по легендарным предметам, затем по уровню, ограничиваем 5
     
     return render(request, "complex_query_2.html", {"characters": characters})  # Рендерим результат
 
@@ -212,9 +221,9 @@ class DeleteUser(DeleteView):
 
 # Класс пагинации вывода персонажей 
 class Pagination(PageNumberPagination):
-    page_size = 1  # Установите количество элементов на странице
+    page_size = 5  # Установите количество элементов на странице
     page_size_query_param = 'page_size'  # Позволяет пользователю переопределять размер страницы через параметр
-    max_page_size = 20  # Максимальный размер страницы
+    max_page_size = 10  # Максимальный размер страницы #? насколько это необходимо?
 
 # ViewSet для работы с персонажами через API
 class CharacterViewSet(viewsets.ModelViewSet):
