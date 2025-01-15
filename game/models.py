@@ -72,6 +72,7 @@ class Character(models.Model):
         self.full_clean()  # Запускаем полную валидацию перед сохранением объекта
         super().save(*args, **kwargs)  # Вызываем метод save() родительского класса
 
+
 # Модель для представления предметов
 class Item(models.Model):
     RARITY_CHOICES = [
@@ -81,7 +82,7 @@ class Item(models.Model):
         ('Epic', 'Epic'),
         ('Legendary', 'Legendary'),
     ]
-    
+
     item_id = models.AutoField(primary_key=True)  # Уникальный идентификатор предмета
     name = models.CharField(max_length=100)  # Название предмета
     description = models.TextField()  # Описание предмета
@@ -91,6 +92,7 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name  # Строковое представление предмета (по его названию)
+
 
 # Модель для связи предметов с персонажами (инвентарь)
 class CharacterItem(models.Model):
@@ -110,6 +112,7 @@ class CharacterItem(models.Model):
         if self.quantity <= 0:
             raise ValidationError("Quantity of item must be more than 0.")
 
+
 # Модель для представления квестов
 class Quest(models.Model):
     quest_id = models.AutoField(primary_key=True)  # Уникальный идентификатор квеста
@@ -121,6 +124,7 @@ class Quest(models.Model):
 
     def __str__(self):
         return self.name  # Строковое представление квеста (по его названию)
+
 
 # Модель для связи персонажей с квестами (задания персонажей)
 class CharacterQuest(models.Model):

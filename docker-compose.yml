@@ -1,10 +1,23 @@
-version: '3.9'
+version: '3.8'
+
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
-      - .:/game
+      - ./static:/app/static  # Том для статических файлов
+      - .:/app  # Ваш проект
     environment:
-      - DJANGO_SETTINGS_MODULE=mysite.settings
+      - DEBUG=1  # Убедитесь, что debug включен для разработки
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase

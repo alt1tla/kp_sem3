@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from game.models import Character  # Импортируем модель Character
 from django.utils.timezone import now, localtime
 
+
 class Command(BaseCommand):
     help = 'Выводит количество персонажей, созданных за сегодня'
 

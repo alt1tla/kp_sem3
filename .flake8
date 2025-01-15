@@ -12,4 +12,4 @@ exclude =
     */site-packages/*
 
 # Добавляем настройку для игнорирования W291
-ignore = W291
+ignore = W291, E265, W504

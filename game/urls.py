@@ -32,16 +32,20 @@ router.register(r'quests', QuestViewSet)  # Маршрут для работы �
 
 # Определяем URL-пути для проекта
 urlpatterns = [
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),  # Страница для отображения Swagger UI
+    # Страница для отображения Swagger UI
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),  
     path("", views.index, name="index"),  # Главная страница (обрабатывает запросы на главную страницу)
     path("item/<int:item_id>/", views.item, name="item"),  # Страница с деталями предмета по его ID
     path("accounts/profile/", views.profile, name="profile"),  # Страница профиля пользователя
     path("registration/", views.RegistrationView.as_view(), name="registration"),  # Страница регистрации
     path("delete_user/<int:pk>/", views.DeleteUser.as_view(), name="delete_user"),  # Страница для удаления пользователя
     path("edit_profile/", views.edit_profile, name="edit_profile"),  # Страница для редактирования профиля пользователя
-    path('create_character/', views.create_character, name='create_character'),  # Страница для создания персонажа
-    path('character/<int:character_id>/', views.character_detail, name='character_detail'),  # Страница с детальной информацией о персонаже
-    path('take_quest/<int:quest_id>/<int:character_id>/', views.take_quest, name='take_quest'),  # Страница для принятия квеста персонажем
+    # Страница для создания персонажа
+    path('create_character/', views.create_character, name='create_character'), 
+    # Страница с детальной информацией о персонаже
+    path('character/<int:character_id>/', views.character_detail, name='character_detail'),  
+    # Страница для принятия квеста персонажем
+    path('take_quest/<int:quest_id>/<int:character_id>/', views.take_quest, name='take_quest'),  
     path('explore-items/', views.explore_items, name='explore_items'),  # Станица с предметами
     path('quest-book/', views.quest_book, name='quest_book'),  # Страница с квестами
     path("api/", include(router.urls)),  # Подключаем маршруты для API через роутер

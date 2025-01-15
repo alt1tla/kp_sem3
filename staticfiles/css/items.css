@@ -1,0 +1,87 @@
+:root {
+    --color--1--: #FDFFE2;
+    --color--2--: #5A72A0;
+    --color--3--: #1A2130;
+    --color--4--: #83B4FF;
+    font-size: 62.5%;
+}
+
+
+.card {
+    background-color: var(--color--3--) !important;
+    color: var(--color--1--) !important;
+    margin-bottom: 10px;
+}
+
+.blockquote-footer {
+    color: var(--color--4--) !important;
+}
+
+.cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.card-item {
+    min-width: 500px !important;
+}
+
+
+.card-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fz {
+    font-size: 2.2rem !important;
+}
+
+.mins {
+  display: flex;
+  justify-content: center;
+  min-height: 150px;
+  padding: 20px;
+}
+
+.bigs {
+  display: flex;
+  justify-content: center;
+  min-height: 150px;
+  padding: 20px;
+}
+
+.bigs:hover{
+  background-color: var(--color--4--) !important;
+  cursor: pointer;
+
+}
+
+.text{
+  color: var(--color--1--) !important;
+}
+
+.text:hover{
+  color: var(--color--3--) !important;
+}
+
+.m {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.btn-pag {
+  background-color: var(--color--2--) !important;
+  border: none;
+  padding: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--color--1--) !important;
+  font-family: 'RedditMono-Bold' !important;
+  margin: 0 10px;
+  display: block;
+  max-width: max-content;
+}
