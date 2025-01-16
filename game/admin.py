@@ -68,6 +68,18 @@ class CharacterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     date_hierarchy = "created_at"
     search_fields = ["name"]
     inlines = [CharacterItemInline, CharacterQuestInline]
+    fieldsets = (
+        ("Personal data", {
+            'fields': ('user',)
+        }),
+        ("Character data", {
+            'fields': ('character_id', 'name', 'level', 'experience', 'character_class')
+        }),
+        ('Additional Information', {
+            'fields': ('created_at',),
+            'classes': ('collapse',)
+        }),
+    )
 
 
 class ItemResource(resources.ModelResource):
